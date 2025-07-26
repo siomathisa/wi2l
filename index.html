@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Notation des Maillots</title>
+  <link rel="icon" type="image/png" href="./favicon.png" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --gradient: linear-gradient(135deg, #00c6ff, #0072ff);
+      --bg-color: #121826;
+      --card-bg: #1e2639;
+      --accent: #00c6ff;
+      --accent-dark: #0072ff;
+      --text-color: #f9fafb;
+      --muted: #94a3b8;
+      --input-bg: #2d3648;
+      --border-color: #334155;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', sans-serif;
+      background: var(--bg-color);
+      color: var(--text-color);
+      margin: 0;
+      padding: 2rem 1rem;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 2.5rem;
+      background: var(--gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 1rem;
+    }
+
+    button {
+      background: var(--gradient);
+      border: none;
+      color: white;
+      padding: 0.9rem 2.2rem;
+      border-radius: 1rem;
+      font-size: 1rem;
+      cursor: pointer;
+      margin: 1rem auto;
+      transition: transform 0.2s ease, box-shadow 0.3s ease;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25);
+    }
+
+    button:hover {
+      transform: translateY(-2px) scale(1.03);
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.35);
+    }
+
+    .drop-zone {
+      border: 2px dashed var(--accent);
+      background-color: rgba(255, 255, 255, 0.03);
+      padding: 2rem;
+      border-radius: 1.5rem;
+      margin-bottom: 2rem;
+      cursor: pointer;
+      transition: background-color 0.3s ease, border-color 0.3s ease;
+      box-shadow: 0 4px 14px rgba(0, 0, 0, 0.2);
+    }
+
+    .drop-zone:hover {
+      background-color: rgba(255, 255, 255, 0.06);
+      border-color: var(--accent-dark);
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    img {
+      max-width: 90vw;
+      max-height: 300px;
+      margin: 1rem 0;
+      border-radius: 1rem;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    .note-section {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 2rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .note-box {
+      background-color: var(--card-bg);
+      padding: 1.5rem;
+      border-radius: 1.25rem;
+      width: 300px;
+      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.25);
+      transition: transform 0.2s ease;
+    }
+
+    .note-box:hover {
+      transform: translateY(-5px);
+    }
+
+    .note-box h3 {
+      color: var(--accent);
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+    }
+
+    .note-box span {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin: 0.6rem 0;
+      color: var(--muted);
+    }
+
+    .note-box input[type='number'] {
+      width: 80px;
+      padding: 0.5rem;
+      font-size: 1rem;
+      border-radius: 0.75rem;
+      border: 1px solid var(--border-color);
+      background-color: var(--input-bg);
+      color: white;
+    }
+
+    .note-box input:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    .progress-bar {
+      height: 12px;
+      width: 90%;
+      max-width: 600px;
+      background-color: #1f2937;
+      border-radius: 6px;
+      margin: 1rem auto;
+      overflow: hidden;
+    }
+
+    .progress-bar-fill {
+      height: 100%;
+      width: 0%;
+      background: var(--gradient);
+      transition: width 0.4s ease-in-out;
+    }
+
+    #progress-indicator {
+      font-size: 1.2rem;
+      font-weight: 600;
+      margin: 0.5rem 0;
+    }
+
+    .table-wrapper {
+      overflow-x: auto;
+      margin-bottom: 2rem;
+    }
+
+    table {
+      width: 95%;
+      margin: 2rem auto;
+      border-collapse: collapse;
+      font-size: 0.95rem;
+      background-color: var(--card-bg);
+      color: white;
+      border-radius: 1rem;
+      overflow: hidden;
+      box-shadow: 0 6px 20px rgba(0, 0, 0, 0.4);
+    }
+
+    th,
+    td {
+      padding: 1rem;
+      border: 1px solid var(--border-color);
+    }
+
+    th {
+      background: var(--gradient);
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      color: white;
+    }
+
+    td img {
+      max-width: 80px;
+      border-radius: 0.5rem;
+    }
+
+    tr:nth-child(even) td {
+      background-color: rgba(255, 255, 255, 0.02);
+    }
+
+    @media (max-width: 600px) {
+      .note-section {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      table {
+        font-size: 0.8rem;
+      }
+
+      th,
+      td {
+        padding: 0.6rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>Notation des Maillots</h1>
+  <button id="toggle-mode">Mode : Duo</button>
+
+  <div class="drop-zone" id="drop-zone">Glisser-déposer les images ici ou cliquer pour choisir</div>
+  <input type="file" id="file-input" multiple accept="image/*" class="hidden">
+
+  <div id="notation-zone" class="hidden">
+    <p id="progress-indicator"></p>
+    <div class="progress-bar">
+      <div class="progress-bar-fill" id="progress-fill"></div>
+    </div>
+    <img id="maillot-img" src="">
+    <form id="note-form">
+      <div class="note-section" id="note-section"></div>
+      <button type="submit">Valider la note</button>
+    </form>
+  </div>
+
+  <div id="result-zone" class="hidden">
+    <h2>Classement Final</h2>
+    <div class="table-wrapper">
+      <table id="results-table">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Maillot</th>
+            <th>Total</th>
+            <th id="william-header">Détail</th>
+            <th id="mathis-header">Détail Mathis</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+    <button onclick="location.reload()">Recommencer</button>
+  </div>
+
+  <script>
+    const dropZone = document.getElementById('drop-zone');
+    const fileInput = document.getElementById('file-input');
+    const notationZone = document.getElementById('notation-zone');
+    const resultZone = document.getElementById('result-zone');
+    const maillotImg = document.getElementById('maillot-img');
+    const noteForm = document.getElementById('note-form');
+    const resultsTable = document.getElementById('results-table').querySelector('tbody');
+    const noteSection = document.getElementById('note-section');
+    const toggleModeBtn = document.getElementById('toggle-mode');
+    const mathisHeader = document.getElementById('mathis-header');
+    const williamHeader = document.getElementById('william-header');
+    const progressIndicator = document.getElementById('progress-indicator');
+    const progressFill = document.getElementById('progress-fill');
+
+    let images = [];
+    let currentIndex = 0;
+    let scores = [];
+    let mode = 'duo';
+    let lockedMode = false;
+
+    const fields = ['Beauté', 'Originalité', 'Classe', 'Facile à assembler', 'Beauté porté'];
+
+    function generateInputs() {
+      noteSection.innerHTML = '';
+
+      const createBox = (name, prefix, showTitle = true) => {
+        const box = document.createElement('div');
+        box.className = 'note-box';
+        if (showTitle) {
+          box.innerHTML = `<h3>Notes de ${name}</h3>`;
+        }
+        fields.forEach(f => {
+          const id = f.toLowerCase().normalize("NFD").replace(/[^\w]/g, '');
+          const span = document.createElement('span');
+          span.innerHTML = `<label>${f} :</label><input type="number" name="${prefix}_${id}" min="0" max="10" step="0.01" required>`;
+          box.appendChild(span);
+        });
+        noteSection.appendChild(box);
+      };
+
+      if (mode === 'solo') {
+        createBox('', 'w', false);
+        mathisHeader.style.display = 'none';
+        williamHeader.textContent = 'Détail';
+      } else {
+        createBox('William', 'w');
+        createBox('Mathis', 'm');
+        mathisHeader.style.display = '';
+        williamHeader.textContent = 'Détail William';
+      }
+    }
+
+    toggleModeBtn.addEventListener('click', () => {
+      if (lockedMode) return;
+      mode = mode === 'duo' ? 'solo' : 'duo';
+      toggleModeBtn.textContent = `Mode : ${mode.charAt(0).toUpperCase() + mode.slice(1)}`;
+      generateInputs();
+    });
+
+    dropZone.addEventListener('click', () => fileInput.click());
+    dropZone.addEventListener('dragover', e => { e.preventDefault(); dropZone.style.borderColor = 'green'; });
+    dropZone.addEventListener('dragleave', () => dropZone.style.borderColor = '#ccc');
+    dropZone.addEventListener('drop', e => {
+      e.preventDefault();
+      handleFiles(e.dataTransfer.files);
+    });
+    fileInput.addEventListener('change', () => handleFiles(fileInput.files));
+
+    function handleFiles(files) {
+      images = Array.from(files);
+      if (images.length > 0) {
+        dropZone.classList.add('hidden');
+        toggleModeBtn.classList.add('hidden');
+        lockedMode = true;
+        showImage();
+        notationZone.classList.remove('hidden');
+        generateInputs();
+      }
+    }
+
+    function showImage() {
+      const reader = new FileReader();
+      reader.onload = () => {
+        maillotImg.src = reader.result;
+        progressIndicator.textContent = `Maillot ${currentIndex + 1} / ${images.length}`;
+        progressFill.style.width = `${((currentIndex + 1) / images.length) * 100}%`;
+      };
+      reader.readAsDataURL(images[currentIndex]);
+    }
+
+    noteForm.addEventListener('submit', e => {
+      e.preventDefault();
+      const formData = new FormData(noteForm);
+
+      const getValues = prefix => fields.map(f =>
+        parseFloat(formData.get(`${prefix}_${f.toLowerCase().normalize("NFD").replace(/[^\w]/g, '')}`))
+      );
+
+      const william = getValues('w');
+      const mathis = mode === 'duo' ? getValues('m') : [0, 0, 0, 0, 0];
+
+      const totalWilliam = william.reduce((a, b) => a + b, 0);
+      const totalMathis = mathis.reduce((a, b) => a + b, 0);
+
+      scores.push({
+        imageSrc: maillotImg.src,
+        total: totalWilliam + totalMathis,
+        william,
+        mathis,
+        totalWilliam,
+        totalMathis
+      });
+
+      noteForm.reset();
+      currentIndex++;
+      if (currentIndex < images.length) {
+        showImage();
+      } else {
+        notationZone.classList.add('hidden');
+        showResults();
+      }
+    });
+
+    function showResults() {
+      scores.sort((a, b) => b.total - a.total);
+      resultsTable.innerHTML = '';
+
+      scores.forEach((s, i) => {
+        const row = document.createElement('tr');
+        const detailNote = mode === 'duo'
+          ? `(W: ${s.totalWilliam.toFixed(2)}, M: ${s.totalMathis.toFixed(2)})`
+          : `(Note : ${s.totalWilliam.toFixed(2)})`;
+        row.innerHTML = `
+          <td>${i + 1}</td>
+          <td><img src="${s.imageSrc}" alt="maillot"></td>
+          <td>${s.total.toFixed(2)}${mode === 'duo' ? '/100' : '/50'}<br>${detailNote}</td>
+          <td>${fields.map((f, j) => `${f}: ${s.william[j]}`).join(', ')}</td>
+          <td>${mode === 'duo' ? fields.map((f, j) => `${f}: ${s.mathis[j]}`).join(', ') : ''}</td>
+        `;
+        resultsTable.appendChild(row);
+      });
+      resultZone.classList.remove('hidden');
+    }
+  </script>
+</body>
+</html>
